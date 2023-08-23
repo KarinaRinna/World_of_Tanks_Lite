@@ -161,16 +161,16 @@ def game_ctrls():
                 quit()
 
         game_layout_display.fill(black)
-        msg_screen("Controls", white, -100, size="large")
-        msg_screen("Fire: Spacebar", wheat, -30)
-        msg_screen("Move Turret: Up and Down arrows", wheat, 10)
-        msg_screen("Move Tank: Left and Right arrows", wheat, 50)
-        msg_screen("Press D to raise Power % AND Press A to lower Power % ", wheat, 140)
-        msg_screen("Pause: P", wheat, 90)
+        msg_screen("Управление", white, -100, size="large")
+        msg_screen("Выстрел: Пробел", wheat, -30)
+        msg_screen("Перемещение турели: стрелки вверх и вниз.", wheat, 10)
+        msg_screen("Перемещение танка: стрелки влево и вправо.", wheat, 50)
+        msg_screen("Нажмите D, чтобы увеличить мощность %, и нажмите A, чтобы уменьшить % мощности.", wheat, 140)
+        msg_screen("Пауза: P", wheat, 90)
 
-        btn("Play", 150, 500, 100, 50, green, light_green, action="play")
-        btn("Main", 350, 500, 100, 50, yellow, light_yellow, action="main")
-        btn("Quit", 550, 500, 100, 50, red, light_red, action="quit")
+        btn("Играть", 150, 500, 100, 50, green, light_green, action="play")
+        btn("Меню", 350, 500, 100, 50, yellow, light_yellow, action="main")
+        btn("Выйти", 550, 500, 100, 50, red, light_red, action="quit")
 
         pygame.display.update()
 
@@ -265,7 +265,7 @@ def playerfireshell(xy, tankx, tanky, turpost, gun_power, xloc, bar_width, ranHe
 
     startShell = list(xy)
 
-    print("FIRE!", xy)
+    print("Огонь!", xy)
 
     while fire:
         for event in pygame.event.get():
@@ -286,19 +286,19 @@ def playerfireshell(xy, tankx, tanky, turpost, gun_power, xloc, bar_width, ranHe
             print("Last shell:", startShell[0], startShell[1])
             hit_x = int((startShell[0] * display_height - grnd_height) / startShell[1])
             hit_y = int(display_height - grnd_height)
-            print("Impact:", hit_x, hit_y)
+            print("Попадание:", hit_x, hit_y)
 
             if eTankX + 10 > hit_x > eTankX - 10:
-                print("Critical Hit!")
+                print("Критическое попадание!")
                 damage = 25
             elif eTankX + 15 > hit_x > eTankX - 15:
-                print("Hard Hit!")
+                print("Тяжелое попадание!")
                 damage = 18
             elif eTankX + 25 > hit_x > eTankX - 25:
-                print("Medium Hit")
+                print("Средний урон")
                 damage = 10
             elif eTankX + 35 > hit_x > eTankX - 35:
-                print("Light Hit")
+                print("Легкое попадание")
                 damage = 5
 
             explosion(hit_x, hit_y)
@@ -314,7 +314,7 @@ def playerfireshell(xy, tankx, tanky, turpost, gun_power, xloc, bar_width, ranHe
             print("Last shell:", startShell[0], startShell[1])
             hit_x = int((startShell[0]))
             hit_y = int(startShell[1])
-            print("Impact:", hit_x, hit_y)
+            print("Попадание:", hit_x, hit_y)
             explosion(hit_x, hit_y)
             fire = False
 
@@ -323,15 +323,15 @@ def playerfireshell(xy, tankx, tanky, turpost, gun_power, xloc, bar_width, ranHe
     return damage
 
 
-def computerfireShell(xy, tankx, tanky, turPost, gun_power, xloc, bar_width, ranHeight, ptankx, ptanky):
+def computerfireshell(xy, tankx, tanky, turPost, gun_power, xloc, bar_width, ranHeight, ptankx, ptanky):
 
     damage = 0
-    cPower = 1
+    cpower = 1
     pow_found = False
 
     while not pow_found:
-        cPower += 1
-        if cPower > 100:
+        cpower += 1
+        if cpower > 100:
             pow_found = True
         # print(currentPower)
 
@@ -348,14 +348,14 @@ def computerfireShell(xy, tankx, tanky, turPost, gun_power, xloc, bar_width, ran
 
             startShell[0] += (12 - turPost) * 2
             startShell[1] += int(
-                (((startShell[0] - xy[0]) * 0.015 / (cPower / 50)) ** 2) - (turPost + turPost / (12 - turPost)))
+                (((startShell[0] - xy[0]) * 0.015 / (cpower / 50)) ** 2) - (turPost + turPost / (12 - turPost)))
 
             if startShell[1] > display_height - grnd_height:
                 hit_x = int((startShell[0] * display_height - grnd_height) / startShell[1])
                 hit_y = int(display_height - grnd_height)
-                # explosion(hit_x,hit_y)
+                # explosion(hit_x, hit_y)  # bug: танк врага взрывается при ходе
                 if ptankx + 15 > hit_x > ptankx - 15:
-                    print("target acquired!")
+                    print("цель достигнута!")
                     pow_found = True
                 fire = False
 
@@ -373,7 +373,7 @@ def computerfireShell(xy, tankx, tanky, turPost, gun_power, xloc, bar_width, ran
 
     fire = True
     startShell = list(xy)
-    print("FIRE!", xy)
+    print("Огонь!", xy)
 
     while fire:
         for event in pygame.event.get():
@@ -387,7 +387,7 @@ def computerfireShell(xy, tankx, tanky, turPost, gun_power, xloc, bar_width, ran
 
 
 
-        gun_power = random.randrange(int(cPower * 0.90), int(cPower * 1.10))
+        gun_power = random.randrange(int(cpower * 0.90), int(cpower * 1.10))
 
         startShell[1] += int(
             (((startShell[0] - xy[0]) * 0.015 / (gun_power / 50)) ** 2) - (turPost + turPost / (12 - turPost)))
@@ -399,16 +399,16 @@ def computerfireShell(xy, tankx, tanky, turPost, gun_power, xloc, bar_width, ran
             print("Impact:", hit_x, hit_y)
 
             if ptankx + 10 > hit_x > ptankx - 10:
-                print("Critical Hit!")
+                print("Критический урон!")
                 damage = 25
             elif ptankx + 15 > hit_x > ptankx - 15:
-                print("Hard Hit!")
+                print("Тяжелое повреждение!")
                 damage = 18
             elif ptankx + 25 > hit_x > ptankx - 25:
-                print("Medium Hit")
+                print("Средний урон")
                 damage = 10
             elif ptankx + 35 > hit_x > ptankx - 35:
-                print("Light Hit")
+                print("легкое попаданиеt")
                 damage = 5
 
             explosion(hit_x, hit_y)
@@ -434,7 +434,7 @@ def computerfireShell(xy, tankx, tanky, turPost, gun_power, xloc, bar_width, ran
 
 
 def power(level):
-    text = s_font.render("Power: " + str(level) + "%", True, wheat)
+    text = s_font.render("Дальность выстрела: " + str(level) + "%", True, wheat)
     game_layout_display.blit(text, [display_width / 2, 0])
 
 
@@ -518,6 +518,7 @@ def you_win():
 
         clock.tick(15)
 
+
 # colors hp line
 def health_bars(p_health, e_health):
     if p_health > 75:
@@ -567,8 +568,8 @@ def gameLoop():
 
         if gOver == True:
             # gameDisplay.fill(white)
-            msg_screen("Game Over", red, -50, size="large")
-            msg_screen("Press C to play again or Q to exit", black, 50)
+            msg_screen("Игра окончена", red, -50, size="large")
+            msg_screen("Нажмите C начать заного Q - выйти", black, 50)
             pygame.display.update()
             while gOver == True:
                 for event in pygame.event.get():
@@ -637,7 +638,7 @@ def gameLoop():
 
                             clock.tick(FPS)
 
-                    damage = computerfireShell(e_gun, eTankX, eTankY, 8, 50, xloc, bar_width,
+                    damage = computerfireshell(e_gun, eTankX, eTankY, 8, 50, xloc, bar_width,
                                          ranHeight, mTankX, mTankY)
                     p_health -= damage
 
@@ -694,6 +695,7 @@ def gameLoop():
 
     pygame.quit()
     quit()
+
 
 game_intro()
 gameLoop()
