@@ -44,61 +44,63 @@ m_font = pygame.font.SysFont("Times New Roman", 50)
 l_font = pygame.font.SysFont("Times New Roman", 85)
 vs_font = pygame.font.SysFont("Times New Roman", 25)
 
-bg_sound = pygame.mixer.Sound('111.mp3') # создаем переменную звука фона
-bg_sound.play(-1) # запускаем чтобы она постоянно играла
-bg_sound.set_volume(0.5) # уровень звука фоновой музыки
+bg_sound = pygame.mixer.Sound('111.mp3')  # создаем переменную звука фона
+bg_sound.play(-1)  # запускаем чтобы она постоянно играла
+bg_sound.set_volume(0.5)  # уровень звука фоновой музыки
 
 bg = pygame.image.load('game_background.jpg').convert_alpha()
 
-def Score(Score):
-        txt = s_font.render("Score: " + str(Score), True, white)
-        game_layout_display.blit(txt, [0, 0])
+
+def score(score):
+    txt = s_font.render("Счет: " + str(score), True, white)
+    game_layout_display.blit(txt, [0, 0])
 
 
 def txt_object(txt, color, size="small"):
     if size == "small":
-        txtSrfc = s_font.render(txt, True, color)
+        txtsrfc = s_font.render(txt, True, color)
     if size == "medium":
-        txtSrfc = m_font.render(txt, True, color)
+        txtsrfc = m_font.render(txt, True, color)
     if size == "large":
-        txtSrfc = l_font.render(txt, True, color)
+        txtsrfc = l_font.render(txt, True, color)
     if size == "vsmall":
-        txtSrfc = vs_font.render(txt, True, color)
+        txtsrfc = vs_font.render(txt, True, color)
 
-    return txtSrfc, txtSrfc.get_rect()
+    return txtsrfc, txtsrfc.get_rect()
 
 
 def txt_btn(message, color, btnx, btny, btnwidth, btnheight, size="vsmall"):
-    txtSrf, textRect = txt_object(message, color, size)
-    textRect.center = ((btnx + (btnwidth / 2)), btny + (btnheight / 2))
-    game_layout_display.blit(txtSrf, textRect)
+    txtsrf, textrect = txt_object(message, color, size)
+    textrect.center = ((btnx + (btnwidth / 2)), btny + (btnheight / 2))
+    game_layout_display.blit(txtsrf, textrect)
+
 
 # function for texts that has to appear over screen
 def msg_screen(message, color, y_displace=0, size="small"):
-    txtSrf, textRect = txt_object(message, color, size)
-    textRect.center = (int(display_width / 2), int(display_height / 2) + y_displace)
-    game_layout_display.blit(txtSrf, textRect)
+    txtsrf, textrect = txt_object(message, color, size)
+    textrect.center = (int(display_width / 2), int(display_height / 2) + y_displace)
+    game_layout_display.blit(txtsrf, textrect)
 
 
 def tank(x, y, turret_position):
     x = int(x)
     y = int(y)
 
-    pos_Turrets = [(x - 27, y - 2),
-                       (x - 26, y - 5),
-                       (x - 25, y - 8),
-                       (x - 23, y - 12),
-                       (x - 20, y - 14),
-                       (x - 18, y - 15),
-                       (x - 15, y - 17),
-                       (x - 13, y - 19),
-                       (x - 11, y - 21)
-                       ]
+    pos_turrets = [(x - 27, y - 2),
+                   (x - 26, y - 5),
+                   (x - 25, y - 8),
+                   (x - 23, y - 12),
+                   (x - 20, y - 14),
+                   (x - 18, y - 15),
+                   (x - 15, y - 17),
+                   (x - 13, y - 19),
+                   (x - 11, y - 21)
+                   ]
 
     pygame.draw.circle(game_layout_display, blue, (x, y), int(tnk_height / 2))
     pygame.draw.rect(game_layout_display, blue, (x - tnk_height, y, tnk_width, tnk_height))
 
-    pygame.draw.line(game_layout_display, blue, (x, y), pos_Turrets[turret_position], tur_width)
+    pygame.draw.line(game_layout_display, blue, (x, y), pos_turrets[turret_position], tur_width)
 
     pygame.draw.circle(game_layout_display, blue, (x - 15, y + 20), whl_width)
     pygame.draw.circle(game_layout_display, blue, (x - 10, y + 20), whl_width)
@@ -111,28 +113,28 @@ def tank(x, y, turret_position):
     pygame.draw.circle(game_layout_display, blue, (x + 10, y + 20), whl_width)
     pygame.draw.circle(game_layout_display, blue, (x + 15, y + 20), whl_width)
 
-    return pos_Turrets[turret_position]
+    return pos_turrets[turret_position]
 
 
 def computer_tank(x, y, turret_position):
     x = int(x)
     y = int(y)
 
-    pos_Turrets = [(x + 27, y - 2),
-                       (x + 26, y - 5),
-                       (x + 25, y - 8),
-                       (x + 23, y - 12),
-                       (x + 20, y - 14),
-                       (x + 18, y - 15),
-                       (x + 15, y - 17),
-                       (x + 13, y - 19),
-                       (x + 11, y - 21)
-                       ]
+    pos_turrets = [(x + 27, y - 2),
+                   (x + 26, y - 5),
+                   (x + 25, y - 8),
+                   (x + 23, y - 12),
+                   (x + 20, y - 14),
+                   (x + 18, y - 15),
+                   (x + 15, y - 17),
+                   (x + 13, y - 19),
+                   (x + 11, y - 21)
+                   ]
 
     pygame.draw.circle(game_layout_display, blue, (x, y), int(tnk_height / 2))
     pygame.draw.rect(game_layout_display, blue, (x - tnk_height, y, tnk_width, tnk_height))
 
-    pygame.draw.line(game_layout_display, blue, (x, y), pos_Turrets[turret_position], tur_width)
+    pygame.draw.line(game_layout_display, blue, (x, y), pos_turrets[turret_position], tur_width)
 
     pygame.draw.circle(game_layout_display, blue, (x - 15, y + 20), whl_width)
     pygame.draw.circle(game_layout_display, blue, (x - 10, y + 20), whl_width)
@@ -145,13 +147,13 @@ def computer_tank(x, y, turret_position):
     pygame.draw.circle(game_layout_display, blue, (x + 10, y + 20), whl_width)
     pygame.draw.circle(game_layout_display, blue, (x + 15, y + 20), whl_width)
 
-    return pos_Turrets[turret_position]
+    return pos_turrets[turret_position]
 
 
 def game_ctrls():
-    gameControl = True
+    gamecontrol = True
 
-    while gameControl:
+    while gamecontrol:
         for event in pygame.event.get():
             # print(event)
             if event.type == pygame.QUIT:
@@ -175,7 +177,7 @@ def game_ctrls():
         clock.tick(15)
 
 
-def btn(txt, x, y, width, height, inactive_color, active_color, action=None,size=" "):
+def btn(txt, x, y, width, height, inactive_color, active_color, action=None, size=" "):
     cursor = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     # print(click)
@@ -237,8 +239,6 @@ def explosion(x, y, size=50):
                 pygame.quit()
                 quit()
 
-        startPoint = x, y
-
         choice_colors = [red, light_red, yellow, light_yellow]
 
         mgntde = 1
@@ -247,7 +247,8 @@ def explosion(x, y, size=50):
             exploding_bit_x = x + random.randrange(-1 * mgntde, mgntde)
             exploding_bit_y = y + random.randrange(-1 * mgntde, mgntde)
 
-            pygame.draw.circle(game_layout_display, choice_colors[random.randrange(0, 4)], (exploding_bit_x, exploding_bit_y),
+            pygame.draw.circle(game_layout_display, choice_colors[random.randrange(0, 4)],
+                               (exploding_bit_x, exploding_bit_y),
                                random.randrange(1, 5))
             mgntde += 1
 
@@ -257,7 +258,7 @@ def explosion(x, y, size=50):
         exp = False
 
 
-def playerfireShell(xy, tankx, tanky, turPost, gun_power, xloc, bar_width, ranHeight, eTankX, eTankY):
+def playerfireshell(xy, tankx, tanky, turpost, gun_power, xloc, bar_width, ranHeight, eTankX, eTankY):
 
     fire = True
     damage = 0
@@ -275,11 +276,11 @@ def playerfireShell(xy, tankx, tanky, turPost, gun_power, xloc, bar_width, ranHe
         # print(startShell[0],startShell[1])
         pygame.draw.circle(game_layout_display, red, (startShell[0], startShell[1]), 5)
 
-        startShell[0] -= (12 - turPost) * 2
+        startShell[0] -= (12 - turpost) * 2
 
         # y = x**2
         startShell[1] += int(
-            (((startShell[0] - xy[0]) * 0.015 / (gun_power / 50)) ** 2) - (turPost + turPost / (12 - turPost)))
+            (((startShell[0] - xy[0]) * 0.015 / (gun_power / 50)) ** 2) - (turpost + turpost / (12 - turpost)))
 
         if startShell[1] > display_height - grnd_height:
             print("Last shell:", startShell[0], startShell[1])
@@ -606,7 +607,7 @@ def gameLoop():
 
                 elif event.key == pygame.K_SPACE:
 
-                    damage = playerfireShell(gun, mTankX, mTankY, curTurPost, f_power, xloc, bar_width,
+                    damage = playerfireshell(gun, mTankX, mTankY, curTurPost, f_power, xloc, bar_width,
                                        ranHeight, eTankX, eTankY)
                     e_health -= damage
 
