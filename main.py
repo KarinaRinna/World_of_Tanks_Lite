@@ -1,5 +1,18 @@
 import pygame
 import random
+import sys
+import os
+
+def resource_path(relative_path):
+    """Получить путь к ресурсу для работы в .exe"""
+    try:
+        # PyInstaller создает временную папку и хранит путь в _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        # Если не в режиме .exe, используем обычный путь
+        base_path = os.path.abspath(".")
+    
+    return os.path.join(base_path, relative_path)
 
 pygame.init()
 
@@ -561,8 +574,8 @@ def gameLoop():
     f_power = 50
     p_change = 0
 
-    xloc = (display_width / 2) + random.randint(-0.1 * display_width, 0.1 * display_width)
-    ranHeight = random.randrange(display_height * 0.1, display_height * 0.6)
+    xloc = int((display_width / 2) + random.uniform(-0.1 * display_width, 0.1 * display_width))
+    ranHeight = random.uniform(display_height * 0.1, display_height * 0.6)
 
     while not gExit:
 
